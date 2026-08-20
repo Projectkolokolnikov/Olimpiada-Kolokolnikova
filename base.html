@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Олимпиада имени Колокольникова</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header" id="top">
+    <div class="header-inner">
+        <a href="/" class="header-logo">
+            <div class="logo-icon">К</div>
+            <div class="logo-text">
+                <span class="logo-main">Олимпиада</span>
+                <span class="logo-sub">имени Колокольникова</span>
+            </div>
+        </a>
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/#stages" class="nav-link">Этапы</a>
+            <a href="/tasks" class="nav-link">Задания</a>
+            <a href="/reviews" class="nav-link">Отзывы</a>
+            <a href="/news" class="nav-link">Новости</a>
+            <a href="/contacts" class="nav-link">Контакты</a>
+            {% if session.get('user_id') %}
+                <a href="/cabinet" class="nav-link">Кабинет</a>
+                <a href="/logout" class="nav-btn">Выйти</a>
+            {% else %}
+                <a href="/login" class="nav-link">Войти</a>
+                <a href="/register" class="nav-btn">Регистрация</a>
+            {% endif %}
+        </nav>
+        <button class="burger" id="burger">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/" class="nav-link">Главная</a>
+        <a href="/#stages" class="nav-link">Этапы</a>
+        <a href="/tasks" class="nav-link">Задания</a>
+        <a href="/reviews" class="nav-link">Отзывы</a>
+        <a href="/news" class="nav-link">Новости</a>
+        <a href="/contacts" class="nav-link">Контакты</a>
+        {% if session.get('user_id') %}
+            <a href="/cabinet" class="nav-link">Кабинет</a>
+            <a href="/logout" class="nav-link">Выйти</a>
+        {% else %}
+            <a href="/login" class="nav-link">Войти</a>
+            <a href="/register" class="nav-btn">Регистрация</a>
+        {% endif %}
+    </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+          {{ message }}
+          <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <div class="logo-icon small">К</div>
+            <span>Олимпиада имени Колокольникова</span>
+        </div>
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+            <a href="/register">Регистрация</a>
+            <a href="/news">Новости</a>
+            <a href="/tasks">Задания</a>
+        </div>
+        <div class="footer-copy">© 2024 Все права защищены</div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
