@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <div class="section-label">Участие</div>
+            <h1 class="page-title">Регистрация</h1>
+            <p>Заполните форму, чтобы принять участие в олимпиаде</p>
+        </div>
+    </div>
+</section>
+
+<section class="registration-section">
+    <div class="container">
+        <div class="reg-layout">
+
+            <!-- Боковая панель с информацией -->
+            <div class="reg-sidebar animate-slide-left">
+                <div class="reg-info-card">
+                    <h3>Что нужно знать</h3>
+                    <div class="reg-info-item">
+                        <div class="reg-info-icon">📋</div>
+                        <div>
+                            <strong>СНИЛС</strong>
+                            <p>Необходим для идентификации участника</p>
+                        </div>
+                    </div>
+                    <div class="reg-info-item">
+                        <div class="reg-info-icon">📧</div>
+                        <div>
+                            <strong>Email</strong>
+                            <p>На него придёт подтверждение заявки</p>
+                        </div>
+                    </div>
+                    <div class="reg-info-item">
+                        <div class="reg-info-icon">🎓</div>
+                        <div>
+                            <strong>Класс участия</strong>
+                            <p>Может отличаться от фактического класса</p>
+                        </div>
+                    </div>
+                    <div class="reg-info-item">
+                        <div class="reg-info-icon">✅</div>
+                        <div>
+                            <strong>Подтверждение</strong>
+                            <p>Проверьте все данные перед отправкой</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reg-contact-card">
+                    <h4>Нужна помощь?</h4>
+                    <p>Напишите нам:</p>
+                    <a href="mailto:olimpiada@example.com">olimpiada@example.com</a>
+                </div>
+            </div>
+
+            <!-- Форма -->
+            <div class="reg-form-wrap animate-slide-right">
+                <form class="reg-form" method="POST" action="/registration" id="regForm">
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <span class="form-section-num">1</span>
+                            Личные данные
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label for="fio">ФИО <span class="required">*</span></label>
+                                <input type="text" id="fio" name="fio" placeholder="Иванов Иван Иванович" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Пол <span class="required">*</span></label>
+                                <select id="gender" name="gender" required>
+                                    <option value="">Выберите...</option>
+                                    <option value="Мужской">Мужской</option>
+                                    <option value="Женский">Женский</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthdate">Дата рождения <span class="required">*</span></label>
+                                <input type="date" id="birthdate" name="birthdate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="snils">Номер СНИЛС <span class="required">*</span></label>
+                                <input type="text" id="snils" name="snils" placeholder="000-000-000 00" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="citizenship">Гражданство <span class="required">*</span></label>
+                                <input type="text" id="citizenship" name="citizenship" placeholder="Россия" value="Россия" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <span class="form-section-num">2</span>
+                            Контактные данные
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="email">E-mail <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Телефон <span class="required">*</span></label>
+                                <input type="tel" id="phone" name="phone" placeholder="+7 (000) 000-00-00" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <span class="form-section-num">3</span>
+                            Данные об обучении
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label for="school">Место обучения <span class="required">*</span></label>
+                                <input type="text" id="school" name="school" placeholder="МАОУ СОШ №1, г. Тюмень" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="study_class">Класс обучения <span class="required">*</span></label>
+                                <select id="study_class" name="study_class" required>
+                                    <option value="">Выберите...</option>
+                                    <option value="9">9 класс</option>
+                                    <option value="10">10 класс</option>
+                                    <option value="11">11 класс</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="participation_class">Класс участия <span class="required">*</span></label>
+                                <select id="participation_class" name="participation_class" required>
+                                    <option value="">Выберите...</option>
+                                    <option value="9">9 класс</option>
+                                    <option value="10">10 класс</option>
+                                    <option value="11">11 класс</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <span class="form-section-num">4</span>
+                            Согласия
+                        </h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="agree_rules" required>
+                                <span class="checkmark"></span>
+                                <span>Я ознакомился с <a href="#" class="link">Правилами проведения олимпиады</a> и согласен с ними</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="agree_personal" required>
+                                <span class="checkmark"></span>
+                                <span>Я даю согласие на <a href="#" class="link">обработку персональных данных</a></span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="agree_info">
+                                <span class="checkmark"></span>
+                                <span>Я согласен получать информационные письма об олимпиаде</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary large" id="submitBtn">
+                            <span class="btn-text">Отправить заявку</span>
+                            <span class="btn-loader" style="display:none">Отправка...</span>
+                        </button>
+                        <p class="form-note">* — обязательные поля</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <div class="section-label">Актуально</div>
+            <h1 class="page-title">Новости</h1>
+            <p>Последние события и обновления олимпиады</p>
+        </div>
+    </div>
+</section>
+
+<section class="news-section">
+    <div class="container">
+        {% if news_list %}
+        <div class="slider-wrap animate-fade-up">
+            <div class="slider-controls">
+                <button class="slider-btn prev" id="newsPrev">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <button class="slider-btn next" id="newsNext">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="slider-viewport">
+                <div class="slider-track" id="newsTrack">
+                    {% for item in news_list %}
+                    <div class="news-card">
+                        <div class="news-card-date">{{ item.date }}</div>
+                        <h3 class="news-card-title">{{ item.title }}</h3>
+                        <p class="news-card-preview">{{ item.preview }}</p>
+                        <a href="/news/{{ item.id }}" class="news-card-link">
+                            Читать далее
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="slider-dots" id="newsDots"></div>
+        </div>
+
+        <div class="news-list animate-fade-up">
+            <h3>Все новости</h3>
+            {% for item in news_list %}
+            <a href="/news/{{ item.id }}" class="news-list-item">
+                <div class="news-list-date">{{ item.date }}</div>
+                <div class="news-list-content">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.preview }}</p>
+                </div>
+                <div class="news-list-arrow">→</div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="tasks-empty animate-fade-up">
+            <div class="tasks-empty-icon">📰</div>
+            <h3>Новостей пока нет</h3>
+            <p>Следите за обновлениями.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

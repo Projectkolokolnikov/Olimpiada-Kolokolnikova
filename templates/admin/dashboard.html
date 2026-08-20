@@ -1,0 +1,105 @@
+{% extends 'admin/base.html' %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <div>
+        <h1>Панель управления</h1>
+        <p>Добро пожаловать, {{ session.admin_name }}!</p>
+    </div>
+</div>
+
+<div class="a-stats-grid">
+    <a href="/admin/participants?status=new" class="a-stat-card highlight">
+        <div class="a-stat-num">{{ stats.regs_new }}</div>
+        <div class="a-stat-label">Новых заявок</div>
+        <div class="a-stat-icon">🆕</div>
+    </a>
+    <a href="/admin/participants" class="a-stat-card">
+        <div class="a-stat-num">{{ stats.regs_total }}</div>
+        <div class="a-stat-label">Всего участников</div>
+        <div class="a-stat-icon">👥</div>
+    </a>
+    <a href="/admin/participants?status=approved" class="a-stat-card">
+        <div class="a-stat-num">{{ stats.regs_approved }}</div>
+        <div class="a-stat-label">Одобрено</div>
+        <div class="a-stat-icon">✅</div>
+    </a>
+    <a href="/admin/reviews" class="a-stat-card highlight-warn">
+        <div class="a-stat-num">{{ stats.reviews_pending }}</div>
+        <div class="a-stat-label">Отзывов на модерации</div>
+        <div class="a-stat-icon">💬</div>
+    </a>
+    <a href="/admin/news" class="a-stat-card">
+        <div class="a-stat-num">{{ stats.news_count }}</div>
+        <div class="a-stat-label">Новостей</div>
+        <div class="a-stat-icon">📰</div>
+    </a>
+    <a href="/admin/tasks" class="a-stat-card">
+        <div class="a-stat-num">{{ stats.tasks_count }}</div>
+        <div class="a-stat-label">Заданий</div>
+        <div class="a-stat-icon">📄</div>
+    </a>
+</div>
+
+<!-- Статус Положения -->
+<div class="a-detail-card" style="margin-bottom:28px">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px">
+        <div>
+            <h3 style="font-family:var(--font-display); font-size:16px; margin-bottom:4px">
+                Положение об олимпиаде
+            </h3>
+            {% if stats.pol_exists %}
+            <p style="font-size:13px; color:#155724">
+                ✅ Файл загружен и доступен участникам
+            </p>
+            {% else %}
+            <p style="font-size:13px; color:#721c24">
+                ⚠️ Файл не загружен — кнопка на сайте неактивна
+            </p>
+            {% endif %}
+        </div>
+        <div style="display:flex; gap:10px">
+            {% if stats.pol_exists %}
+            <a href="/docs/polozhenie" target="_blank" class="a-btn a-btn-outline">
+                Открыть PDF
+            </a>
+            {% endif %}
+            <a href="/admin/upload-polozhenie" class="a-btn a-btn-primary">
+                {% if stats.pol_exists %}Заменить{% else %}Загрузить{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="a-quick-actions">
+    <h2>Быстрые действия</h2>
+    <div class="a-actions-grid">
+        <a href="/admin/news/add" class="a-action-card">
+            <span class="a-action-icon">📰</span>
+            <span>Добавить новость</span>
+        </a>
+        <a href="/admin/reviews/add" class="a-action-card">
+            <span class="a-action-icon">💬</span>
+            <span>Добавить отзыв</span>
+        </a>
+        <a href="/admin/tasks/add" class="a-action-card">
+            <span class="a-action-icon">📄</span>
+            <span>Загрузить задание</span>
+        </a>
+        <a href="/admin/results/add" class="a-action-card">
+            <span class="a-action-icon">🏆</span>
+            <span>Добавить результат</span>
+        </a>
+        <a href="/admin/participants/export" class="a-action-card">
+            <span class="a-action-icon">📊</span>
+            <span>Экспорт в Excel</span>
+        </a>
+        <a href="/admin/upload-polozhenie" class="a-action-card">
+            <span class="a-action-icon">📑</span>
+            <span>Положение</span>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

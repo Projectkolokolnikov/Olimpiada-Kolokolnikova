@@ -1,0 +1,38 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'Редактировать' if item else 'Добавить' }} новость{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>{{ 'Редактировать новость' if item else 'Добавить новость' }}</h1>
+    <a href="/admin/news" class="a-btn a-btn-outline">← Назад</a>
+</div>
+
+<div class="a-form-card">
+    <form method="POST">
+        <div class="a-form-group">
+            <label>Заголовок <span class="req">*</span></label>
+            <input type="text" name="title"
+                   value="{{ item.title if item else '' }}"
+                   placeholder="Заголовок новости" required>
+        </div>
+        <div class="a-form-group">
+            <label>Текст <span class="req">*</span></label>
+            <textarea name="text" rows="12"
+                      placeholder="Полный текст новости..." required>{{ item.text if item else '' }}</textarea>
+        </div>
+        <div class="a-form-group">
+            <label class="a-checkbox-label">
+                <input type="checkbox" name="published"
+                       {{ 'checked' if item and item.published else '' }}>
+                <span>Опубликовать сразу</span>
+            </label>
+        </div>
+        <div class="a-form-actions">
+            <button type="submit" class="a-btn a-btn-primary">
+                {{ 'Сохранить' if item else 'Добавить' }}
+            </button>
+            <a href="/admin/news" class="a-btn a-btn-outline">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
