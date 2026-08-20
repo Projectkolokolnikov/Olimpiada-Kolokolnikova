@@ -1,0 +1,66 @@
+{% extends 'admin/base.html' %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>Отзывы</h1>
+    <a href="/admin/reviews/add" class="a-btn a-btn-primary">+ Добавить отзыв</a>
+</div>
+
+{% if reviews %}
+<div class="a-cards-list">
+    {% for r in reviews %}
+    <div class="a-review-card {{ '' if r.approved else 'a-review-pending' }}">
+        <div class="a-review-header">
+            <div class="a-review-avatar">{{ r.name[0] }}</div>
+            <div>
+                <strong>{{ r.name }}</strong>
+                <span class="a-badge">{{ r.status }}</span>
+                <small>{{ r.timestamp }}</small>
+            </div>
+            <div class="a-review-modstatus" style="margin-left:auto">
+                {% if r.approved %}
+                <span class="a-badge a-badge-approved">✅ Опубликован</span>
+                {% else %}
+                <span class="a-badge a-badge-new">⏳ На модерации</span>
+                {% endif %}
+            </div>
+        </div>
+        <p class="a-review-text">{{ r.text }}</p>
+        <div class="a-row-actions">
+            {% if not r.approved %}
+            <form method="POST" action="/admin/reviews/{{ r.id }}/action"
+                  style="display:inline">
+                <input type="hidden" name="action" value="approve">
+                <button type="submit" class="a-btn a-btn-sm a-btn-success">
+                    ✅ Одобрить
+                </button>
+            </form>
+            {% else %}
+            <form method="POST" action="/admin/reviews/{{ r.id }}/action"
+                  style="display:inline">
+                <input type="hidden" name="action" value="reject">
+                <button type="submit" class="a-btn a-btn-sm a-btn-warn">
+                    🙈 Скрыть
+                </button>
+            </form>
+            {% endif %}
+            <form method="POST" action="/admin/reviews/{{ r.id }}/action"
+                  style="display:inline"
+                  onsubmit="return confirm('Удалить отзыв?')">
+                <input type="hidden" name="action" value="delete">
+                <button type="submit" class="a-btn a-btn-sm a-btn-danger">
+                    🗑️ Удалить
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="a-empty">
+    <div class="a-empty-icon">💬</div>
+    <p>Отзывов пока нет</p>
+</div>
+{% endif %}
+{% endblock %}

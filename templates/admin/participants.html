@@ -1,0 +1,79 @@
+{% extends 'admin/base.html' %}
+{% block title %}Участники{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <div>
+        <h1>Участники</h1>
+        <p>Показано: {{ users|length }}</p>
+    </div>
+    <div class="a-header-actions">
+        <a href="/admin/results/add" class="a-btn a-btn-outline">+ Результат</a>
+        <a href="/admin/participants/export" class="a-btn a-btn-outline">📊 Excel</a>
+    </div>
+</div>
+
+<div class="a-filters">
+    <a href="?status=all"
+       class="a-filter-btn {{ 'active' if filter_status=='all' }}">Все</a>
+    <a href="?status=new"
+       class="a-filter-btn {{ 'active' if filter_status=='new' }}">🆕 Новые</a>
+    <a href="?status=approved"
+       class="a-filter-btn {{ 'active' if filter_status=='approved' }}">✅ Одобренные</a>
+    <a href="?status=rejected"
+       class="a-filter-btn {{ 'active' if filter_status=='rejected' }}">❌ Отклонённые</a>
+    <a href="?status=draft"
+       class="a-filter-btn {{ 'active' if filter_status=='draft' }}">📝 Черновики</a>
+</div>
+
+{% if users %}
+<div class="a-table-wrap">
+    <table class="a-table">
+        <thead>
+            <tr>
+                <th>Участник</th>
+                <th>Класс</th>
+                <th>Школа</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>
+                    <strong>{{ u.profile.fio if u.profile and u.profile.fio else '—' }}</strong>
+                    <small>{{ u.email }}</small>
+                </td>
+                <td>{{ u.profile.participation_class if u.profile and u.profile.participation_class else '—' }}</td>
+                <td>
+                    {% if u.profile and u.profile.school %}
+                        {{ u.profile.school[:28] }}{% if u.profile.school|length > 28 %}…{% endif %}
+                    {% else %}—{% endif %}
+                </td>
+                <td>
+                    <span class="a-badge a-badge-{{ u.application_status }}">
+                        {% if u.application_status == 'new' %}На рассмотрении
+                        {% elif u.application_status == 'approved' %}Одобрен
+                        {% elif u.application_status == 'rejected' %}Отклонён
+                        {% else %}Черновик{% endif %}
+                    </span>
+                </td>
+                <td>{{ u.created_at }}</td>
+                <td>
+                    <a href="/admin/participants/{{ u.id }}"
+                       class="a-btn a-btn-sm a-btn-outline">Подробнее</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="a-empty">
+    <div class="a-empty-icon">👥</div>
+    <p>Участников нет</p>
+</div>
+{% endif %}
+{% endblock %}

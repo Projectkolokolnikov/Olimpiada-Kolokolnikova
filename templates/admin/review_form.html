@@ -1,0 +1,34 @@
+{% extends 'admin/base.html' %}
+{% block title %}Добавить отзыв{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>Добавить отзыв</h1>
+    <a href="/admin/reviews" class="a-btn a-btn-outline">← Назад</a>
+</div>
+
+<div class="a-form-card">
+    <form method="POST">
+        <div class="a-form-group">
+            <label>Имя автора <span class="req">*</span></label>
+            <input type="text" name="name" placeholder="Иван Иванов" required>
+        </div>
+        <div class="a-form-group">
+            <label>Статус <span class="req">*</span></label>
+            <select name="status" required>
+                <option value="участник">Участник</option>
+                <option value="организатор">Организатор</option>
+            </select>
+        </div>
+        <div class="a-form-group">
+            <label>Текст отзыва <span class="req">*</span></label>
+            <textarea name="text" rows="6"
+                      placeholder="Текст отзыва..." required></textarea>
+        </div>
+        <div class="a-form-actions">
+            <button type="submit" class="a-btn a-btn-primary">Добавить</button>
+            <a href="/admin/reviews" class="a-btn a-btn-outline">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

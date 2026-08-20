@@ -1,0 +1,50 @@
+{% extends 'admin/base.html' %}
+{% block title %}Администраторы{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>Администраторы</h1>
+    <a href="/admin/admins/add" class="a-btn a-btn-primary">+ Добавить</a>
+</div>
+
+<div class="a-table-wrap">
+    <table class="a-table">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Логин</th>
+                <th>Права</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+            <tr>
+                <td><strong>{{ admin.name }}</strong></td>
+                <td><code>{{ admin.login }}</code></td>
+                <td>
+                    {% if admin.super %}
+                    <span class="a-badge a-badge-approved">Суперадмин</span>
+                    {% else %}
+                    <span class="a-badge">Администратор</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not admin.super %}
+                    <form method="POST"
+                          action="/admin/admins/{{ admin.id }}/delete"
+                          onsubmit="return confirm('Удалить {{ admin.name }}?')">
+                        <button type="submit" class="a-btn a-btn-sm a-btn-danger">
+                            🗑️ Удалить
+                        </button>
+                    </form>
+                    {% else %}
+                    <span style="color:#999;font-size:12px">—</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

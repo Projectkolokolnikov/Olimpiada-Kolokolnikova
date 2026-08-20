@@ -1,0 +1,58 @@
+{% extends 'admin/base.html' %}
+{% block title %}Новости{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>Новости</h1>
+    <a href="/admin/news/add" class="a-btn a-btn-primary">+ Добавить новость</a>
+</div>
+
+{% if news_list %}
+<div class="a-table-wrap">
+    <table class="a-table">
+        <thead>
+            <tr>
+                <th>Заголовок</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in news_list %}
+            <tr>
+                <td>
+                    <strong>{{ item.title }}</strong>
+                    <small>{{ item.preview[:60] if item.preview else '' }}...</small>
+                </td>
+                <td>{{ item.date }}</td>
+                <td>
+                    <span class="a-badge {{ 'a-badge-approved' if item.published else 'a-badge-new' }}">
+                        {{ 'Опубликована' if item.published else 'Черновик' }}
+                    </span>
+                </td>
+                <td>
+                    <div class="a-row-actions">
+                        <a href="/admin/news/{{ item.id }}/edit"
+                           class="a-btn a-btn-sm a-btn-outline">✏️</a>
+                        <form method="POST"
+                              action="/admin/news/{{ item.id }}/delete"
+                              style="display:inline"
+                              onsubmit="return confirm('Удалить новость?')">
+                            <button type="submit"
+                                    class="a-btn a-btn-sm a-btn-danger">🗑️</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="a-empty">
+    <div class="a-empty-icon">📰</div>
+    <p>Новостей пока нет</p>
+</div>
+{% endif %}
+{% endblock %}

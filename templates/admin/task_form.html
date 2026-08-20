@@ -1,0 +1,58 @@
+{% extends 'admin/base.html' %}
+{% block title %}Загрузить задание{% endblock %}
+{% block content %}
+
+<div class="a-page-header">
+    <h1>Загрузить задание</h1>
+    <a href="/admin/tasks" class="a-btn a-btn-outline">← Назад</a>
+</div>
+
+<div class="a-form-card">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="a-form-group">
+            <label>Название <span class="req">*</span></label>
+            <input type="text" name="title"
+                   placeholder="Задания отборочного этапа 2024" required>
+        </div>
+        <div class="a-form-grid">
+            <div class="a-form-group">
+                <label>Этап <span class="req">*</span></label>
+                <select name="tour" required>
+                    <option value="">Выберите...</option>
+                    <option value="Отборочный этап">Отборочный этап</option>
+                    <option value="Заключительный этап">Заключительный этап</option>
+                </select>
+            </div>
+            <div class="a-form-group">
+                <label>Год <span class="req">*</span></label>
+                <input type="text" name="year" placeholder="2024" required>
+            </div>
+            <div class="a-form-group">
+                <label>Тип материала</label>
+                <select name="task_type">
+                    <option value="task">📄 Задания</option>
+                    <option value="solution">✅ Разбор / решения</option>
+                    <option value="criteria">📊 Критерии оценивания</option>
+                    <option value="other">📎 Прочее</option>
+                </select>
+            </div>
+        </div>
+        <div class="a-form-group">
+            <label>Файл (PDF, DOCX, XLSX...)</label>
+            <input type="file" name="file"
+                   accept=".pdf,.doc,.docx,.xlsx,.xls,.zip,.jpg,.png">
+            <small>Максимальный размер: 50 МБ</small>
+        </div>
+        <div class="a-form-group">
+            <label class="a-checkbox-label">
+                <input type="checkbox" name="published">
+                <span>Опубликовать сразу</span>
+            </label>
+        </div>
+        <div class="a-form-actions">
+            <button type="submit" class="a-btn a-btn-primary">Загрузить</button>
+            <a href="/admin/tasks" class="a-btn a-btn-outline">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
