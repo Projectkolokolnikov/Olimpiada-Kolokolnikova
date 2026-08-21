@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-content">
+            <div class="section-label">Связь</div>
+            <h1 class="page-title">Контакты</h1>
+            <p>Мы всегда готовы ответить на ваши вопросы</p>
+        </div>
+    </div>
+</section>
+
+<section class="contacts-section">
+    <div class="container">
+        <div class="contacts-grid animate-fade-up">
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Электронная почта</h3>
+                <p>По вопросам регистрации и участия:</p>
+                <a href="mailto:olimpiada@example.com" class="contact-link">
+                    olimpiada@example.com
+                </a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Телефон</h3>
+                <p>Рабочие дни с 9:00 до 18:00:</p>
+                <a href="tel:+73452000000" class="contact-link">
+                    +7 (3452) 00-00-00
+                </a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">🕐</div>
+                <h3>Время работы</h3>
+                <p>Понедельник – Пятница</p>
+                <strong class="contact-link">9:00 – 18:00</strong>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3>Адрес</h3>
+                <p>Региональный центр «Новое поколение»:</p>
+                <strong class="contact-link">г. Тюмень, ул. 30 лет Победы, 102</strong>
+            </div>
+        </div>
+        <div class="contacts-note animate-fade-up">
+            <h3>Часто задаваемые вопросы</h3>
+            <p>Прежде чем писать, проверьте раздел
+               <a href="/#stages">Этапы олимпиады</a> —
+               там собраны ответы на самые популярные вопросы по каждому туру.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
