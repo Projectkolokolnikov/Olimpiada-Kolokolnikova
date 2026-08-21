@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Админ{% endblock %} — Олимпиада</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-logo">
+            <div class="login-logo-icon small">К</div>
+            <span>Администратор</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="/admin"
+               class="admin-nav-link {{ 'active' if request.endpoint=='admin_dashboard' }}">
+                <span class="nav-icon">🏠</span> Дашборд
+            </a>
+            <a href="/admin/participants"
+               class="admin-nav-link {{ 'active' if 'participant' in request.endpoint }}">
+                <span class="nav-icon">👥</span> Участники
+            </a>
+            <a href="/admin/results/add"
+               class="admin-nav-link {{ 'active' if request.endpoint=='admin_add_result' }}">
+                <span class="nav-icon">🏆</span> Результаты
+            </a>
+            <a href="/admin/reviews"
+               class="admin-nav-link {{ 'active' if 'review' in request.endpoint }}">
+                <span class="nav-icon">💬</span> Отзывы
+            </a>
+            <a href="/admin/news"
+               class="admin-nav-link {{ 'active' if 'news' in request.endpoint }}">
+                <span class="nav-icon">📰</span> Новости
+            </a>
+            <a href="/admin/tasks"
+               class="admin-nav-link {{ 'active' if 'task' in request.endpoint }}">
+                <span class="nav-icon">📄</span> Задания
+            </a>
+            <a href="/admin/upload-polozhenie"
+               class="admin-nav-link {{ 'active' if request.endpoint=='admin_upload_polozhenie' }}">
+                <span class="nav-icon">📑</span> Положение
+            </a>
+            {% if session.get('admin_super') %}
+            <a href="/admin/admins"
+               class="admin-nav-link {{ 'active' if 'admins' in request.endpoint }}">
+                <span class="nav-icon">👑</span> Администраторы
+            </a>
+            {% endif %}
+
+            <div class="admin-nav-divider"></div>
+
+            <a href="/" target="_blank" class="admin-nav-link">
+                <span class="nav-icon">🌐</span> Сайт
+            </a>
+            <a href="/admin/logout" class="admin-nav-link logout">
+                <span class="nav-icon">🚪</span> Выйти
+            </a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="admin-flashes">
+              {% for cat, msg in messages %}
+              <div class="admin-flash admin-flash-{{ cat }}">
+                  {{ msg }}
+                  <button onclick="this.parentElement.remove()">×</button>
+              </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="page-hero small">
+    <div class="container">
+        <div class="page-hero-content">
+            <div class="section-label">Личный кабинет</div>
+            <h1 class="page-title">Профиль участника</h1>
+        </div>
+    </div>
+</section>
+
+<section class="cabinet-section">
+    <div class="container">
+        <div class="cabinet-grid">
+
+            <div class="cabinet-sidebar">
+                <div class="cab-user-card">
+                    <div class="cab-avatar">
+                        {{ (user.profile.fio if user.profile and user.profile.fio else user.email)[0].upper() }}
+                    </div>
+                    <div class="cab-user-info">
+                        <strong>
+                            {{ user.profile.fio if user.profile and user.profile.fio else 'Не заполнено' }}
+                        </strong>
+                        <span>{{ user.email }}</span>
+                    </div>
+                </div>
+                <nav class="cab-nav">
+                    <a href="/cabinet" class="cab-nav-link">🏠 Главная</a>
+                    <a href="/cabinet/profile" class="cab-nav-link active">👤 Профиль</a>
+                    <a href="/cabinet/results" class="cab-nav-link">🏆 Результаты</a>
+                    <a href="/logout" class="cab-nav-link logout">🚪 Выйти</a>
+                </nav>
+            </div>
+
+            <div class="cabinet-main">
+                <div class="cab-form-card animate-fade-up">
+                    <h3>Данные участника</h3>
+                    <p class="cab-form-note">
+                        Эти данные используются для регистрации на олимпиаду.
+                        Проверьте корректность перед подачей заявки.
+                    </p>
+
+                    <form method="POST" class="cab-form">
+                        {% set p = user.profile or {} %}
+
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <span class="form-section-num">1</span>
+                                Личные данные
+                            </h4>
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label>ФИО <span class="required">*</span></label>
+                                    <input type="text" name="fio"
+                                           value="{{ p.get('fio','') }}"
+                                           placeholder="Иванов Иван Иванович" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Пол <span class="required">*</span></label>
+                                    <select name="gender" required>
+                                        <option value="">Выберите...</option>
+                                        <option value="Мужской"
+                                            {{ 'selected' if p.get('gender')=='Мужской' }}>
+                                            Мужской
+                                        </option>
+                                        <option value="Женский"
+                                            {{ 'selected' if p.get('gender')=='Женский' }}>
+                                            Женский
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Дата рождения <span class="required">*</span></label>
+                                    <input type="date" name="birthdate"
+                                           value="{{ p.get('birthdate','') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>СНИЛС <span class="required">*</span></label>
+                                    <input type="text" name="snils" id="snils"
+                                           value="{{ p.get('snils','') }}"
+                                           placeholder="000-000-000 00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Гражданство <span class="required">*</span></label>
+                                    <input type="text" name="citizenship"
+                                           value="{{ p.get('citizenship','Россия') }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <span class="form-section-num">2</span>
+                                Контакты
+                            </h4>
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label>E-mail</label>
+                                    <input type="email" value="{{ user.email }}" disabled>
+                                    <small>Email изменить нельзя — это ваш логин</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Телефон <span class="required">*</span></label>
+                                    <input type="tel" name="phone" id="phone"
+                                           value="{{ p.get('phone','') }}"
+                                           placeholder="+7 (000) 000-00-00" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h4 class="form-section-title">
+                                <span class="form-section-num">3</span>
+                                Обучение
+                            </h4>
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label>Место обучения <span class="required">*</span></label>
+                                    <input type="text" name="school"
+                                           value="{{ p.get('school','') }}"
+                                           placeholder="МАОУ СОШ №1, г. Тюмень" required>
+                                </div>
+
+                                <!-- Класс участия — только 7 или 8 -->
+                                <div class="form-group">
+                                    <label>Класс участия <span class="required">*</span></label>
+                                    <select name="participation_class"
+                                            id="participation_class" required>
+                                        <option value="">Выберите...</option>
+                                        <option value="7"
+                                            {{ 'selected' if p.get('participation_class')=='7' }}>
+                                            7 класс
+                                        </option>
+                                        <option value="8"
+                                            {{ 'selected' if p.get('participation_class')=='8' }}>
+                                            8 класс
+                                        </option>
+                                    </select>
+                                    <small>Олимпиада проводится для 7–8 классов</small>
+                                </div>
+
+                                <!-- Класс обучения — от 1 до класса участия -->
+                                <div class="form-group">
+                                    <label>Класс обучения <span class="required">*</span></label>
+                                    <select name="study_class" id="study_class" required>
+                                        <option value="">Выберите...</option>
+                                        {% for c in range(1, 9) %}
+                                        <option value="{{ c }}"
+                                            {{ 'selected' if p.get('study_class')==c|string }}>
+                                            {{ c }} класс
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <small>Фактический класс обучения (не выше класса участия)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-primary large">
+                                Сохранить данные
+                            </button>
+                            <a href="/cabinet" class="btn btn-outline">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Маска телефона
+const phone = document.getElementById('phone');
+if (phone) {
+    phone.addEventListener('input', function() {
+        let v = this.value.replace(/\D/g,'');
+        if (v.startsWith('7') || v.startsWith('8')) v = v.slice(1);
+        let r = '+7';
+        if (v.length > 0) r += ' (' + v.slice(0,3);
+        if (v.length >= 3) r += ') ' + v.slice(3,6);
+        if (v.length >= 6) r += '-' + v.slice(6,8);
+        if (v.length >= 8) r += '-' + v.slice(8,10);
+        this.value = r;
+    });
+}
+
+// Маска СНИЛС
+const snils = document.getElementById('snils');
+if (snils) {
+    snils.addEventListener('input', function() {
+        let v = this.value.replace(/\D/g,'').slice(0,11);
+        let r = v;
+        if (v.length > 3) r = v.slice(0,3) + '-' + v.slice(3);
+        if (v.length > 6) r = v.slice(0,3) + '-' + v.slice(3,6) + '-' + v.slice(6);
+        if (v.length > 9) r = v.slice(0,3) + '-' + v.slice(3,6) + '-' + v.slice(6,9) + ' ' + v.slice(9);
+        this.value = r;
+    });
+}
+
+// Класс обучения не может быть больше класса участия
+const partClass  = document.getElementById('participation_class');
+const studyClass = document.getElementById('study_class');
+
+function updateStudyOptions() {
+    if (!partClass || !studyClass) return;
+    const maxClass = parseInt(partClass.value) || 8;
+    const options  = Array.from(studyClass.options);
+
+    options.forEach(opt => {
+        if (opt.value === '') return;
+        const v = parseInt(opt.value);
+        if (v > maxClass) {
+            opt.disabled = true;
+            opt.style.display = 'none';
+        } else {
+            opt.disabled = false;
+            opt.style.display = '';
+        }
+    });
+
+    // Если текущий выбор стал недоступен — сбросить
+    if (parseInt(studyClass.value) > maxClass) {
+        studyClass.value = '';
+    }
+}
+
+if (partClass) {
+    partClass.addEventListener('change', updateStudyOptions);
+    // Применить сразу при загрузке страницы
+    updateStudyOptions();
+}
+</script>
+
+{% endblock %}
